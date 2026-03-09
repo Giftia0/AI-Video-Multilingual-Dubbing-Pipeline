@@ -58,23 +58,33 @@
 
 ## 🚀 安装
 
-> 模型文件属于本地运行资源，不应上传到 GitHub。
-> 请仅在本地保留 `checkpoints_v2/` 和 `whisper/`。
+> **说明：** 模型文件（`checkpoints_v2/`、`whisper/`）和第三方源码（`OpenVoice/`、`MeloTTS/`）仅在本地使用，不包含在此仓库中。
 
 ### 1. 克隆仓库
 
 ```bash
-git clone https://github.com/<your-username>/data-engineering.git
-cd data-engineering/project1-pipeline
+git clone https://github.com/Giftia0/AI-Video-Multilingual-Dubbing-Pipeline.git
+cd AI-Video-Multilingual-Dubbing-Pipeline
 ```
 
-### 2. 安装 Python 依赖
+### 2. 安装 PyTorch（推荐 GPU 版本）
+
+根据你的 CUDA 版本，从 https://pytorch.org/get-started/locally/ 选择对应命令。
+
+```bash
+# 示例 — CUDA 11.8
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+### 3. 安装 Python 依赖
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. 克隆并安装 OpenVoice V2（声音克隆）
+包含：`faster-whisper`、`edge-tts`、`pydub`、`requests`、`soundfile`、`pyannote.audio`、`huggingface_hub`、`openai-whisper`。
+
+### 4. 克隆并安装 OpenVoice V2（声音克隆）
 
 ```bash
 git clone https://github.com/myshell-ai/OpenVoice.git
@@ -82,17 +92,21 @@ pip install -e OpenVoice --no-deps
 pip install wavmark
 ```
 
-### 4. 克隆并安装 MeloTTS（备选 TTS）
+### 5. 克隆并安装 MeloTTS（备选 TTS）
 
 ```bash
 git clone https://github.com/myshell-ai/MeloTTS.git
 pip install -e MeloTTS
 ```
 
-### 5. 设置环境变量
+### 6. 设置环境变量
+
+pyannote 说话人分离需要 HuggingFace Token。
+从 https://huggingface.co/settings/tokens 获取（需先接受 pyannote 模型的使用协议）。
+
+Linux / macOS：
 
 ```bash
-# pyannote 说话人分离需要 HuggingFace Token（从 https://huggingface.co/settings/tokens 获取）
 export HF_TOKEN="hf_your_token_here"
 ```
 
@@ -102,20 +116,23 @@ Windows PowerShell：
 $env:HF_TOKEN="hf_your_token_here"
 ```
 
-### 6. 拉取 Ollama 翻译模型
+### 7. 安装并启动 Ollama（翻译后端）
+
+从 https://ollama.com 下载安装，然后：
 
 ```bash
 ollama pull gpt-oss:120b-cloud
+ollama serve   # 在另一个终端保持运行
 ```
 
-### 7. 放置源视频
+### 8. 放置源视频
 
 将中文 `.mp4` 视频放到 `../project-video-audio-CN-EN-FR/` 目录下。
 
-### 8. 下载本地模型（首次运行）
+### 9. 首次运行 — 自动下载模型
 
-`checkpoints_v2/` 和 `whisper/` 为本地依赖，不应提交到 Git。
-若目录不存在，先运行一次流水线，会自动下载所需模型。
+`checkpoints_v2/`（OpenVoice V2）和 `whisper/`（faster-whisper large-v3）会在首次运行时自动下载。
+这些目录已在 `.gitignore` 中，仅保留在本地。
 
 ## 🎯 使用方法
 

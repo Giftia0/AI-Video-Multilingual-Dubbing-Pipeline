@@ -1,7 +1,23 @@
-# AI Video Language Transformation Pipeline
+# AI Video Multilingual Dubbing Pipeline
 # Python 3.10+
 
+# --- Core pipeline ---
 faster-whisper>=1.0.0
 edge-tts>=6.1.0
 pydub>=0.25.1
 requests>=2.28.0
+soundfile>=0.12.0
+
+# --- Speaker diarization ---
+pyannote.audio>=3.1
+huggingface_hub>=0.20.0
+
+# --- GPU / ML runtime ---
+# PyTorch: install the CUDA build matching your GPU driver.
+# See https://pytorch.org/get-started/locally/
+# Example (CUDA 11.8):
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+torch>=2.0.0
+
+# --- OpenVoice dependency (whisper is used internally by se_extractor) ---
+openai-whisper>=20231117

@@ -59,23 +59,33 @@ Output: Dubbed video (.mp4) + subtitle files (.srt)
 
 ## 🚀 Installation
 
-> Model files are local runtime assets and are intentionally not uploaded to GitHub.
-> Keep `checkpoints_v2/` and `whisper/` in local storage only.
+> **Note:** Model files (`checkpoints_v2/`, `whisper/`) and third-party source repos (`OpenVoice/`, `MeloTTS/`) are local-only and intentionally excluded from this repository.
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/data-engineering.git
-cd data-engineering/project1-pipeline
+git clone https://github.com/Giftia0/AI-Video-Multilingual-Dubbing-Pipeline.git
+cd AI-Video-Multilingual-Dubbing-Pipeline
 ```
 
-### 2. Install Python dependencies
+### 2. Install PyTorch (GPU recommended)
+
+Choose the command matching your CUDA version from https://pytorch.org/get-started/locally/.
+
+```bash
+# Example — CUDA 11.8
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+### 3. Install Python dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Clone & install OpenVoice V2 (voice cloning)
+This installs: `faster-whisper`, `edge-tts`, `pydub`, `requests`, `soundfile`, `pyannote.audio`, `huggingface_hub`, `openai-whisper`.
+
+### 4. Clone & install OpenVoice V2 (voice cloning)
 
 ```bash
 git clone https://github.com/myshell-ai/OpenVoice.git
@@ -83,17 +93,21 @@ pip install -e OpenVoice --no-deps
 pip install wavmark
 ```
 
-### 4. Clone & install MeloTTS (fallback TTS)
+### 5. Clone & install MeloTTS (fallback TTS)
 
 ```bash
 git clone https://github.com/myshell-ai/MeloTTS.git
 pip install -e MeloTTS
 ```
 
-### 5. Set up environment variables
+### 6. Set up environment variables
+
+A HuggingFace token is required for pyannote speaker diarization.
+Get one at https://huggingface.co/settings/tokens (accept the pyannote model license first).
+
+Linux / macOS:
 
 ```bash
-# Required for pyannote speaker diarization (get token from https://huggingface.co/settings/tokens)
 export HF_TOKEN="hf_your_token_here"
 ```
 
@@ -103,20 +117,23 @@ Windows PowerShell:
 $env:HF_TOKEN="hf_your_token_here"
 ```
 
-### 6. Pull Ollama translation model
+### 7. Install & start Ollama (translation backend)
+
+Download from https://ollama.com, then:
 
 ```bash
 ollama pull gpt-oss:120b-cloud
+ollama serve   # keep running in a separate terminal
 ```
 
-### 7. Place source videos
+### 8. Place source videos
 
 Put your Chinese `.mp4` videos in the `../project-video-audio-CN-EN-FR/` directory.
 
-### 8. Download local model checkpoints (first run)
+### 9. First run — auto-download model checkpoints
 
-`checkpoints_v2/` and `whisper/` are local dependencies and should not be committed.
-If missing, run the pipeline once and it will auto-download required checkpoints.
+`checkpoints_v2/` (OpenVoice V2) and `whisper/` (faster-whisper large-v3) will be downloaded automatically on the first run.
+These directories are gitignored and should stay local-only.
 
 ## 🎯 Usage
 
