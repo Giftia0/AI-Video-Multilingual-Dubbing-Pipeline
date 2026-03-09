@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Runtime logs
+*.log
+run_error*.log
+
+# Generated artifacts
+output/
+processed/
+
+# Local model assets (do not commit)
+checkpoints_v2/
+whisper/
+
+# Third-party dependencies (clone separately)
+OpenVoice/
+MeloTTS/
+
+# Temporary media/cache files
+*.wav
+*.mp3
+*.flac
+*.tmp
+.cache/
